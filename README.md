@@ -6,7 +6,7 @@
 
 ---
 
-- A button component is implemented within the form.
+- A button component implemented within the form.
 - The Reset button is located outside the button component, and the structure is designed so that when the Reset button is clicked in the form, all checkboxes in the child component can be unchecked.
 
 - This is an example of creating a reusable ButtonComponent. It allows selecting all checkboxes via the Select-All-Button and is configured to respond to the Reset button.
