@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import Button from "./UI/Button";
 import Checkbox from "./UI/Checkbox";
 
@@ -8,40 +10,54 @@ const ButtonComponent = ({
   onCheckboxChange,
 }: {
   checkboxData: CheckboxDataType[];
-  onCheckboxChange: (updatedCheckers: CheckboxDataType[]) => void;
+  onCheckboxChange: (updatedCheckboxValues: CheckboxDataType[]) => void;
 }) => {
-  if (checkboxData.length === 0) {
-    return <></>;
-  }
-
-  const handleSelectAllButton = () => {
+  const handleSelectAllButton = useCallback(() => {
     const nextBooleanValue = !checkboxData.every((elm) => elm.checked);
 
-    const updatedCheckers = checkboxData.map((elm) => ({
+    const updatedCheckboxValues = checkboxData.map((elm) => ({
       ...elm,
       checked: nextBooleanValue,
     }));
-    onCheckboxChange(updatedCheckers);
-  };
+    onCheckboxChange(updatedCheckboxValues);
+  }, [checkboxData, onCheckboxChange]);
 
-  const handleCheckboxChange = (value: string) => {
-    const updatedCheckers = checkboxData.map((checker) =>
-      checker.value === value ? { ...checker, checked: !checker.checked } : checker
-    );
-    onCheckboxChange(updatedCheckers);
-  };
+  const handleCheckboxChange = useCallback(
+    (changedValue: string) => {
+      const updatedCheckboxValues = checkboxData.map((checkboxValue) =>
+        checkboxValue.value === changedValue
+          ? { ...checkboxValue, checked: !checkboxValue.checked }
+          : checkboxValue
+      );
+      onCheckboxChange(updatedCheckboxValues);
+    },
+    [checkboxData, onCheckboxChange]
+  );
+
+  if (checkboxData.length === 0) {
+    return <p>...Loading</p>;
+  }
 
   return (
     <>
-      <Button onClick={handleSelectAllButton}>Togle Select-All</Button>
-      <div className="checker-container">
+      <Button
+        className={
+          checkboxData.map((data) => data.checked).every((checkedValue) => checkedValue)
+            ? "btn-selected"
+            : ""
+        }
+        onClick={handleSelectAllButton}
+      >
+        Toggle Select-All
+      </Button>
+      <div className="checkbox-container">
         {checkboxData.map((data) => (
           <Checkbox
             key={data.value}
             checked={data.checked}
             onChange={() => handleCheckboxChange(data.value)}
           >
-            {data.value}
+            {data.label}
           </Checkbox>
         ))}
       </div>

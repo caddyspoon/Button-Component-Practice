@@ -19,7 +19,7 @@ code {
   justify-content: center;
 }
 
-.checker-container {
+.checkbox-container {
   display: flex;
   padding: 5px 3px;
 }
@@ -37,4 +37,12 @@ code {
 
 .mr-10 {
   margin-right: 10px;
+}
+
+.btn-selected {
+  background-color: #5d5d5d !important;
+}
+
+.btn-selected:hover {
+  background-color: #c4c4c4 !important;
 }

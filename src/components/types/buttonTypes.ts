@@ -1,5 +1,5 @@
 export interface CheckboxDataType {
-  lable: string;
+  label: string;
   value: string;
   checked: boolean;
 }

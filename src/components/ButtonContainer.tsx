@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import Card from "./UI/Card";
 import Button from "./UI/Button";
@@ -6,12 +6,12 @@ import ButtonComponent from "./ButtonComponent";
 
 import { CheckboxDataType } from "./types/buttonTypes";
 
-const dummyFetchData = [
-  { lable: "Type One", value: "type-1", checked: false },
-  { lable: "Type Two", value: "type-2", checked: false },
-  { lable: "Type Three", value: "type-3", checked: false },
-  { lable: "Type Four", value: "type-4", checked: false },
-  { lable: "Type Five", value: "type-5", checked: false },
+const fetchedData = [
+  { label: "One", value: "type-1", checked: false },
+  { label: "Two", value: "type-2", checked: false },
+  { label: "Three", value: "type-3", checked: false },
+  { label: "Four", value: "type-4", checked: false },
+  { label: "Five", value: "type-5", checked: false },
 ];
 
 const initFormState = {
@@ -23,27 +23,27 @@ const ButtonContainer = () => {
   const [checkboxState, setCheckboxState] = useState<CheckboxDataType[]>([]);
 
   useEffect(() => {
-    setCheckboxState(dummyFetchData);
+    setCheckboxState(fetchedData);
   }, []);
 
-  const handleResetButton = () => {
-    setFormState({ checkedValue: [] });
+  const handleResetButton = useCallback(() => {
+    setFormState(initFormState);
     setCheckboxState((prevState) =>
       prevState.map((state) => ({
         ...state,
         checked: false,
       }))
     );
-  };
+  }, []);
 
-  const handleCheckboxChange = (updatedCheckers: CheckboxDataType[]) => {
-    const checkedValues = updatedCheckers
-      .filter((checker) => checker.checked)
-      .map((checker) => checker.value);
+  const handleCheckboxChange = useCallback((updatedCheckboxData: CheckboxDataType[]) => {
+    const nextCheckedValues = updatedCheckboxData
+      .filter((checkboxValue) => checkboxValue.checked)
+      .map((checkboxValue) => checkboxValue.value);
 
-    setFormState({ checkedValue: checkedValues });
-    setCheckboxState(updatedCheckers);
-  };
+    setFormState((prevState) => ({ ...prevState, checkedValue: nextCheckedValues }));
+    setCheckboxState(updatedCheckboxData);
+  }, []);
 
   return (
     <>
@@ -51,7 +51,7 @@ const ButtonContainer = () => {
       <div className="container">
         <Card>
           <div className="inner-box">
-            <h3>Buttons in the form</h3>
+            <h3>Button Component inside the form</h3>
             <ButtonComponent checkboxData={checkboxState} onCheckboxChange={handleCheckboxChange} />
           </div>
           <Button onClick={handleResetButton} reset={true}>
@@ -63,7 +63,11 @@ const ButtonContainer = () => {
               {formState.checkedValue.length === 0 ? (
                 <p>Nothing selected.</p>
               ) : (
-                formState.checkedValue.map((value) => <p className="mr-10">{value}</p>)
+                formState.checkedValue.map((value) => (
+                  <p key={value} className="mr-10">
+                    {value}
+                  </p>
+                ))
               )}
             </div>
           </div>
