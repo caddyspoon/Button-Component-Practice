@@ -4,7 +4,7 @@
 
 ![preview_project.mov](./readme_imgs/preview_project.mov.gif)
 
----
+## Overview
 
 - A button component implemented within the form.
 - The Reset button is located outside the button component, and the structure is designed so that when the Reset button is clicked in the form, all checkboxes in the child component can be unchecked.
@@ -13,3 +13,14 @@
 
 - Most of the CSS was created with reference to W3Schools.
   - [Go to W3Schools](https://www.w3schools.com/)
+
+## How to Run
+
+```bash
+# First-time setup
+$ yarn install
+
+# To start the project
+$ yarn run start
+```
+
