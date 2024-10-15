@@ -1,5 +1,11 @@
 # Button Components with Select All
 
+## Preview
+
+![preview_project.mov](./readme_imgs/preview_project.mov.gif)
+
+---
+
 - A button component is implemented within the form.
 - The Reset button is located outside the button component, and the structure is designed so that when the Reset button is clicked in the form, all checkboxes in the child component can be unchecked.
 
